@@ -10,7 +10,7 @@ Steps on running the project
 4. When the dependencies are installed, run NPM run dev to start the server
 5. Once the server is started, you can copy the generated URL by the server and paste in your web browser to see the project
 
-Note: This a React project built with Next.Js.
+Note: This a React project built with Next.Js and Typescript.
 
 First, run the development server:
 
