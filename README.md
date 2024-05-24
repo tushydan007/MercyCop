@@ -2,6 +2,16 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Steps on running the project
+
+1. Clone the project from Github
+2. CD into the cloned folder
+3. Run NPM install to install all the dependencies of the project
+4. When the dependencies are installed, run NPM run dev to start the server
+5. Once the server is started, you can copy the generated URL by the server and paste in your web browser to see the project
+
+Note: This a React project built with Next.Js.
+
 First, run the development server:
 
 ```bash
