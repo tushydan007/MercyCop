@@ -7,7 +7,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -21,6 +20,7 @@ const TenderPage = () => {
   const [tenders, setTenders] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,20 +36,50 @@ const TenderPage = () => {
     setCurrentPage(num);
   };
 
-  const paginatedData = paginate(tenders, currentPage, pageSize);
+  const handlePrevious = () => {
+    setCurrentPage(currentPage - 1);
+  };
+  const handleNext = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  const paginatedOrNotPaginated = searchQuery
+    ? tenders.filter((t) =>
+        t.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+      )
+    : tenders;
+  const paginatedData = paginate(
+    paginatedOrNotPaginated,
+    currentPage,
+    pageSize
+  );
 
   return (
-    <div className="pt-20">
+    <div className="pt-16 px-10">
+      <div className="flex justify-left items-center">
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="outline-none p-2 mb-10 w-10/12 rounded-md bg-slate-100"
+        />
+      </div>
       <Table>
         <TableCaption>A list of Tenders.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">ID</TableHead>
-            <TableHead>Title</TableHead>
-            <TableHead>Description</TableHead>
-            <TableHead>Submission Deadline</TableHead>
-            <TableHead className="text-left">Delete</TableHead>
-            <TableHead className="text-left">Download</TableHead>
+            <TableHead className="font-bold text-black">Title</TableHead>
+            <TableHead className="font-bold text-black">Description</TableHead>
+            <TableHead className="font-bold text-black">
+              Submission Deadline
+            </TableHead>
+            <TableHead className="text-left font-bold text-black">
+              Delete
+            </TableHead>
+            <TableHead className="text-left font-bold text-black">
+              Download
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -79,6 +109,8 @@ const TenderPage = () => {
         currentPage={currentPage}
         pageSize={pageSize}
         handlePagination={handlePaginationNumberChange}
+        handlePrevious={handlePrevious}
+        handleNext={handleNext}
       />
     </div>
   );

@@ -14,6 +14,8 @@ type TenderData = {
   currentPage: number;
   tenders: User[];
   handlePagination: (num: number) => void;
+  handlePrevious: () => void;
+  handleNext: () => void;
 };
 
 export function PaginationDemo({
@@ -21,6 +23,8 @@ export function PaginationDemo({
   currentPage,
   tenders,
   handlePagination,
+  handlePrevious,
+  handleNext,
 }: TenderData) {
   const pageSum = tenders?.length / pageSize;
   const pageNumbers = _.range(1, pageSum + 1);
@@ -37,6 +41,8 @@ export function PaginationDemo({
             <PaginationItem key={page}>
               <PaginationLink
                 href="#"
+                isActive={page === currentPage}
+                className={page === currentPage ? "bg-blue-300" : ""}
                 onClick={() => {
                   handlePagination(page);
                 }}
@@ -46,7 +52,7 @@ export function PaginationDemo({
             </PaginationItem>
           ))}
           <PaginationItem>
-            <PaginationNext href="#" />
+            <PaginationNext href="#" onClick={handleNext} />
           </PaginationItem>
         </PaginationContent>
       </Pagination>
