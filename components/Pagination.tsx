@@ -35,7 +35,7 @@ export function PaginationDemo({
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious href="#" />
+            <PaginationPrevious href="#" onClick={handlePrevious} />
           </PaginationItem>
           {pageNumbers.map((page) => (
             <PaginationItem key={page}>

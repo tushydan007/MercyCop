@@ -15,18 +15,23 @@ import {
 import { Button } from "@/components/ui/button";
 import { PaginationDemo } from "@/components/Pagination";
 import { paginate } from "@/lib/paginate";
+import Download from "@/components/Download";
+import Link from "next/link";
 
 const TenderPage = () => {
   const [tenders, setTenders] = useState<User[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       const { data } = await axios.get(
         "https://jsonplaceholder.typicode.com/posts"
       );
+      setLoading(false);
       setTenders(data);
     };
     fetchData();
@@ -43,6 +48,11 @@ const TenderPage = () => {
     setCurrentPage(currentPage + 1);
   };
 
+  const handleTextSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1);
+  };
+
   const paginatedOrNotPaginated = searchQuery
     ? tenders.filter((t) =>
         t.title.toLowerCase().startsWith(searchQuery.toLowerCase())
@@ -53,6 +63,13 @@ const TenderPage = () => {
     currentPage,
     pageSize
   );
+  if (loading) {
+    return (
+      <div>
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-16 px-10">
@@ -60,7 +77,7 @@ const TenderPage = () => {
         <input
           type="text"
           placeholder="Search..."
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleTextSearch}
           className="outline-none p-2 mb-10 w-10/12 rounded-md bg-slate-100"
         />
       </div>
@@ -95,7 +112,13 @@ const TenderPage = () => {
               <TableCell className="text-left">
                 <Button
                   variant={"secondary"}
-                  className="bg-blue-400 text-white"
+                  className="bg-blue-400 text-white hover:text-black"
+                  onClick={() =>
+                    Download(
+                      "/Cornelius-Samuel-Ezeh(1).pdf",
+                      "Cornelius-Samuel-Ezeh(1).pdf"
+                    )
+                  }
                 >
                   Download
                 </Button>
